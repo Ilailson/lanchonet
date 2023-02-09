@@ -1,31 +1,29 @@
-﻿using System.Diagnostics;
+﻿using LanchesMac.Repositories;
+using LanchesMac.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using LanchesMac.Models;
 
-namespace LanchesMac.Controllers;
-
-public class HomeController : Controller
+namespace LanchesMac.Controllers
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly ILancheRepository _lancheRepository; //ter acesso ao lanches
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(ILancheRepository lancheRepository)
+        {
+            _lancheRepository = lancheRepository;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            var homeViewModel = new HomeViewModel
+            {
+                //essa propriedade esta na view model
+                LanchesPreferidos = _lancheRepository.LanchesPreferidos
+            };
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(homeViewModel);
+        }
     }
 }
+
+//criar uma view model
