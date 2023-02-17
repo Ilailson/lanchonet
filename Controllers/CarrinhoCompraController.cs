@@ -33,14 +33,27 @@ public class CarrinhoCompraController : Controller
         return View(carrinhoComprasViewModel);
     }
 
-    /*public RedirectToActionResult AdicionarItemNoCarrinhoCompra(int lancheId)
+    public IActionResult AdicionarItemNoCarrinhoCompra(int lancheId)
     {
-        var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(p => p.LancheId== lancheId);   
+        var lancheSelecionado = _lancheRepository.Lanches
+                                .FirstOrDefault(p => p.LancheId == lancheId);
+
         if (lancheSelecionado != null)
         {
-            _carrinhoCompra.AdicionarAoCarrinho(lancheSelecionado, 1);
+            _carrinhoCompra.AdicionarAoCarrinho(lancheSelecionado);
         }
         return RedirectToAction("Index");
+    }
 
-    }*/
+    public IActionResult RemoverItemDoCarrinhoCompra(int lancheId)
+    {
+        var lancheSelecionado = _lancheRepository.Lanches
+                                .FirstOrDefault(p => p.LancheId == lancheId);
+
+        if (lancheSelecionado != null)
+        {
+            _carrinhoCompra.RemoverDoCarrinho(lancheSelecionado);
+        }
+        return RedirectToAction("Index");
+    }
 }
